@@ -10,29 +10,65 @@ namespace MyLibrary.Infrastructure.Repositories
 {
     public class BookRepository : IBookRepository
     {
-        public Task Add(Book x)
+        private AppDbContext _appDbContext;
+        public BookRepository(AppDbContext appDbContext)
         {
-            throw new NotImplementedException();
+            _appDbContext = appDbContext;
+        }
+        public async Task Add(Book x)
+        {
+            try
+            {
+                _appDbContext.Book.Add(x);
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task BrowseAll(Book x)
+        public async Task<IEnumerable<Book>> BrowseAll()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(_appDbContext.Book);
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Remove(_appDbContext.Book.FirstOrDefault(x => x.Id == id));
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task<Book> Get(int id)
+        public async Task<Book> Get(int id)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(_appDbContext.Book.FirstOrDefault(x => x.Id == id));
         }
 
-        public Task Update(Book x)
+        public async Task Update(Book x)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var toUpdate = _appDbContext.Book.FirstOrDefault(b => b.Id == x.Id);
+
+                toUpdate.Title = x.Title;
+                toUpdate.ImageURL = x.ImageURL;
+
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
     }
 }

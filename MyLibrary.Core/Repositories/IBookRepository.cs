@@ -13,6 +13,6 @@ namespace MyLibrary.Core.Repositories
         Task Update(Book x);
         Task Delete(int id);
         Task<Book> Get(int id);
-        Task BrowseAll(Book x);
+        Task<IEnumerable<Book>> BrowseAll();
     }
 }
