@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyLibrary.Core.Domain
+namespace MyLibrary.Infrastructure.DTO
 {
-    public class Author
+    public class AuthorDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public List<BookAuthor> BookAuthors { get; set; }
+        //public List<BookDTO> Books { get; set; }
     }
 }

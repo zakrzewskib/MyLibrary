@@ -21,8 +21,17 @@ namespace MyLibrary.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> BrowseAll()
         {
-            IEnumerable<BookDTO> z = await _bookService.BrowseAll();
-            return Json(z);
+            IEnumerable<BookDTO> x = await _bookService.BrowseAll();
+            return Json(x);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetZawodnik(int id)
+        {
+            BookDTO x = await _bookService.Get(id);
+            return Json(x);
+        }
+
+
     }
 }

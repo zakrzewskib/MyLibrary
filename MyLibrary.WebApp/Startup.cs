@@ -30,7 +30,7 @@ namespace MyLibrary.WebApp
 
             services.AddDbContext<AppDbContext>(
                options => options.UseSqlServer(
-                   Configuration.GetConnectionString("ZawodnikConnectionString")
+                   Configuration.GetConnectionString("MyLibraryConnectionString")
                ));
 
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();

@@ -1,4 +1,5 @@
-﻿using MyLibrary.Core.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using MyLibrary.Core.Domain;
 using MyLibrary.Core.Repositories;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace MyLibrary.Infrastructure.Repositories
 
         public async Task<IEnumerable<Book>> BrowseAll()
         {
-            return await Task.FromResult(_appDbContext.Book);
+            return await Task.FromResult(_appDbContext.Book.Include("BookAuthors"));
         }
 
         public async Task Delete(int id)

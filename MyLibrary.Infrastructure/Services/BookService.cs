@@ -12,38 +12,46 @@ namespace MyLibrary.Infrastructure.Services
     public class BookService : IBookService
     {
         private readonly IBookRepository _bookRepository;
-        public BookService(IBookRepository bookRepository)
+        private readonly IAuthorRepository _authorRepository;
+        private readonly IBookAuthorRepository _bookAuthorRepository;
+        public BookService(IBookRepository bookRepository, IAuthorRepository authorRepository, IBookAuthorRepository bookAuthorRepository)
         {
             _bookRepository = bookRepository;
+            _authorRepository = authorRepository;
+            _bookAuthorRepository = bookAuthorRepository;
         }
         public async Task Add(BookDTO x)
         {
-            Book book = new Book()
-            {
-                Id = x.Id,
-                Title = x.Title,
-                ImageURL = x.ImageURL,
-                Authors = x.Authors,
-                PublishingHouse = x.PublishingHouse,
-                Accessibilities = x.Accessibilities
-            };
-            await _bookRepository.Add(book);
+            //Book book = new Book()
+            //{
+            //    Id = x.Id,
+            //    Title = x.Title,
+            //    ImageURL = x.ImageURL,
+            //    BookAuthors = x.BookAuthors
+            //};
+            //await _bookRepository.Add(book);
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<BookDTO>> BrowseAll()
         {
-            var books = await _bookRepository.BrowseAll() ;
+            throw new NotImplementedException();
+            //var books = await _bookRepository.BrowseAll();
 
-            return books.Select(x => new BookDTO()
-            {
-                Id = x.Id,
-                Title = x.Title,
-                ImageURL = x.ImageURL,
-                Authors = x.Authors,
-                PublishingHouse = x.PublishingHouse,
-                Accessibilities = x.Accessibilities,
-                Comments = x.Comments,
-            });
+            //foreach (var item in books)
+            //{
+            //    foreach (var bookauthor in item.BookAuthors)
+            //    {
+
+            //    }
+            //}
+
+            //return books.Select(x => new BookDTO()
+            //{
+            //    Id = x.Id,
+            //    Title = x.Title,
+            //    ImageURL = x.ImageURL,
+            //});
         }
 
         public Task Delete(int id)
@@ -51,9 +59,34 @@ namespace MyLibrary.Infrastructure.Services
             throw new NotImplementedException();
         }
 
-        public Task<BookDTO> Get(int id)
+        public async Task<BookDTO> Get(int id)
         {
-            throw new NotImplementedException();
+            var x = await _bookRepository.Get(id);
+            var s = await _bookAuthorRepository.BrowseAll();
+           
+            List<AuthorDTO> bookAuthors = new List<AuthorDTO>();
+            foreach (var item in s)
+            {
+                if (item.BookId == id)
+                {
+                    var author = await _authorRepository.Get(item.AuthorId);
+                    bookAuthors.Add(new AuthorDTO()
+                    {
+                        Id = author.Id,
+                        Name = author.Name,
+                        Surname = author.Surname
+                    });
+                }
+
+            };
+
+            return new BookDTO()
+            {
+                Id = x.Id,
+                Title = x.Title,
+                ImageURL = x.ImageURL,
+                Authors = bookAuthors
+            };
         }
 
         public Task Update(BookDTO X, int id)

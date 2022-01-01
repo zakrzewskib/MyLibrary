@@ -36,6 +36,11 @@ namespace MyLibrary.WebAPI
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IBookService, BookService>();
 
+            services.AddScoped<IAuthorRepository, AuthorRepository>();
+            services.AddScoped<IAuthorService, AuthorService>();
+
+            services.AddScoped<IBookAuthorRepository, BookAuthorRepository>();
+
             services.AddDbContext<AppDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("MyLibraryConnectionString"));
             });
