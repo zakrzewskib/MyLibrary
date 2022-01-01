@@ -22,37 +22,67 @@ namespace MyLibrary.Infrastructure.Services
         }
         public async Task Add(BookDTO x)
         {
-            //Book book = new Book()
-            //{
-            //    Id = x.Id,
-            //    Title = x.Title,
-            //    ImageURL = x.ImageURL,
-            //    BookAuthors = x.BookAuthors
-            //};
-            //await _bookRepository.Add(book);
             throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<BookDTO>> BrowseAll()
         {
-            throw new NotImplementedException();
-            //var books = await _bookRepository.BrowseAll();
+            var x = await _bookRepository.BrowseAll();
+            List<BookDTO> result = new List<BookDTO>();
 
-            //foreach (var item in books)
-            //{
-            //    foreach (var bookauthor in item.BookAuthors)
-            //    {
+            var bookAuthors = await _bookAuthorRepository.BrowseAll();
 
-            //    }
-            //}
+            foreach (var book in x)
+            {
+                List<AuthorDTO> authors = new List<AuthorDTO>();
+                foreach (var item in bookAuthors)
+                {
+                    if (item.BookId == book.Id)
+                    {
+                        var author = await _authorRepository.Get(item.AuthorId);
 
-            //return books.Select(x => new BookDTO()
-            //{
-            //    Id = x.Id,
-            //    Title = x.Title,
-            //    ImageURL = x.ImageURL,
-            //});
+                        authors.Add(new AuthorDTO()
+                        {
+                            Id = author.Id,
+                            Name = author.Name,
+                            Surname = author.Surname
+                        });
+                    }
+                }
+                result.Add(new BookDTO()
+                {
+                    Id = book.Id,
+                    Title = book.Title,
+                    ImageURL = book.ImageURL,
+                    Authors = authors
+                });
+               
+            };
+            return result;
+
         }
+
+        //private async Task<List<AuthorDTO>> GetAuthorsOfBookAsync(int id)
+        //{
+        //    var bookAuthors = await _bookAuthorRepository.BrowseAll();
+
+        //    List<AuthorDTO> authors = new List<AuthorDTO>();
+        //    foreach (var item in bookAuthors)
+        //    {
+        //        if (item.BookId == id)
+        //        {
+        //            var author = await _authorRepository.Get(item.AuthorId);
+
+        //            authors.Add(new AuthorDTO()
+        //            {
+        //                Id = author.Id,
+        //                Name = author.Name,
+        //                Surname = author.Surname
+        //            });
+        //        }
+        //    };
+        //    return authors;
+        //}
 
         public Task Delete(int id)
         {
@@ -62,22 +92,22 @@ namespace MyLibrary.Infrastructure.Services
         public async Task<BookDTO> Get(int id)
         {
             var x = await _bookRepository.Get(id);
-            var s = await _bookAuthorRepository.BrowseAll();
+            var bookAuthors = await _bookAuthorRepository.BrowseAll();
            
-            List<AuthorDTO> bookAuthors = new List<AuthorDTO>();
-            foreach (var item in s)
+            List<AuthorDTO> authors = new List<AuthorDTO>();
+            foreach (var item in bookAuthors)
             {
                 if (item.BookId == id)
                 {
                     var author = await _authorRepository.Get(item.AuthorId);
-                    bookAuthors.Add(new AuthorDTO()
+
+                    authors.Add(new AuthorDTO()
                     {
                         Id = author.Id,
                         Name = author.Name,
                         Surname = author.Surname
                     });
                 }
-
             };
 
             return new BookDTO()
@@ -85,7 +115,7 @@ namespace MyLibrary.Infrastructure.Services
                 Id = x.Id,
                 Title = x.Title,
                 ImageURL = x.ImageURL,
-                Authors = bookAuthors
+                Authors = authors
             };
         }
 
