@@ -1,0 +1,29 @@
+﻿@model MyLibrary.WebApp.Models.RegisterVM
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Register" asp-controller="Account" method="post" class="form-horizontal" role="form">
+
+            <div class="form-group">
+                <label asp-for="Username" class="control-label"></label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-primary" value="Register" />
+                    <a role="button" class="btn btn-secondary" asp-action="Login" asp-controller="Account">Click to login</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
