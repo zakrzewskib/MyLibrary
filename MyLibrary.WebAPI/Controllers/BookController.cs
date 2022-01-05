@@ -59,7 +59,7 @@ namespace MyLibrary.WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateZawodnik([FromBody] UpdateBook updateBook, int id)
+        public async Task<IActionResult> Update([FromBody] UpdateBook updateBook, int id)
         {
             BookDTO book = new BookDTO()
             {
@@ -68,14 +68,10 @@ namespace MyLibrary.WebAPI.Controllers
                 Authors = updateBook.Authors
             };
 
-
             await _bookService.Update(book, id);
 
-            IEnumerable<BookDTO> books = await _bookService.BrowseAll();
-
-            return Json(books);
+            BookDTO b = await _bookService.Get(id);
+            return Json(b);
         }
-
-
     }
 }

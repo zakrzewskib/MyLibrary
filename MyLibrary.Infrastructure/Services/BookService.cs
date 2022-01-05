@@ -118,8 +118,6 @@ namespace MyLibrary.Infrastructure.Services
 
         public async Task Update(BookDTO x, int id)
         {
-            var bookAuthorsFromRepo = await _bookAuthorRepository.BrowseAll();
-            var bookFromRepo = await _bookRepository.Get(id);
             var bookAuthorOfCurrentBook = await _bookAuthorRepository.Get(id);
 
             // First delete all authorbooks
@@ -139,14 +137,7 @@ namespace MyLibrary.Infrastructure.Services
                     AuthorId = author.Id,
                     BookId = x.Id
                 });
-
-                //await _bookAuthorRepository.Add(new BookAuthor()
-                //{
-                //    AuthorId = author.Id,
-                //    BookId = x.Id
-                //});
             }
-
 
             Book book = new Book()
             {
