@@ -123,9 +123,30 @@ namespace MyLibrary.Infrastructure.Services
             };
         }
 
-        public Task Update(BookDTO X, int id)
+        public async Task Update(BookDTO x, int id)
         {
-            throw new NotImplementedException();
+            List<AuthorDTO> authors = x.Authors;
+            List<BookAuthor> bookAuthors = new List<BookAuthor>();
+
+            foreach (var author in authors)
+            {
+                bookAuthors.Add(new BookAuthor()
+                {
+                    AuthorId = author.Id,
+                    BookId = x.Id
+                });
+            }
+
+
+            Book book = new Book()
+            {
+                Id = id,
+                Title = x.Title,
+                ImageURL = x.ImageURL,
+                BookAuthors = bookAuthors
+            };
+
+            await _bookRepository.Update(book);
         }
     }
 }

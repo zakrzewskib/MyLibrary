@@ -52,10 +52,27 @@ namespace MyLibrary.WebAPI.Controllers
                 Authors = createBook.Authors
             };
             
-
             await _bookService.Add(book);
 
             IEnumerable <BookDTO> books = await _bookService.BrowseAll();
+
+            return Json(books);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateZawodnik([FromBody] UpdateBook updateBook, int id)
+        {
+            BookDTO book = new BookDTO()
+            {
+                Title = updateBook.Title,
+                ImageURL = updateBook.ImageURL,
+                Authors = updateBook.Authors
+            };
+
+
+            await _bookService.Update(book, id);
+
+            IEnumerable<BookDTO> books = await _bookService.BrowseAll();
 
             return Json(books);
         }

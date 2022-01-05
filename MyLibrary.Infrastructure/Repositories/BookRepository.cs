@@ -62,6 +62,7 @@ namespace MyLibrary.Infrastructure.Repositories
 
                 toUpdate.Title = x.Title;
                 toUpdate.ImageURL = x.ImageURL;
+                toUpdate.BookAuthors = x.BookAuthors;
 
                 _appDbContext.SaveChanges();
                 await Task.CompletedTask;
