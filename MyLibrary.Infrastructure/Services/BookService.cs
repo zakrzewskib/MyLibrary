@@ -24,6 +24,7 @@ namespace MyLibrary.Infrastructure.Services
         {
             List<AuthorDTO> authors = x.Authors;
             List<BookAuthor> bookAuthors = new List<BookAuthor>();
+
             foreach(var author in authors)
             {
                 bookAuthors.Add(new BookAuthor()
@@ -68,6 +69,7 @@ namespace MyLibrary.Infrastructure.Services
                         });
                     }
                 }
+
                 result.Add(new BookDTO()
                 {
                     Id = book.Id,
