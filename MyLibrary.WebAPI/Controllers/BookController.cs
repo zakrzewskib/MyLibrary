@@ -46,7 +46,6 @@ namespace MyLibrary.WebAPI.Controllers
         {
             BookDTO book = new BookDTO()
             {
-                Id = createBook.Id,
                 Title = createBook.Title,
                 ImageURL = createBook.ImageURL,
                 Authors = createBook.Authors

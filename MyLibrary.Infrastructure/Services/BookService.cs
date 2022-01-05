@@ -26,19 +26,12 @@ namespace MyLibrary.Infrastructure.Services
             List<BookAuthor> bookAuthors = new List<BookAuthor>();
             foreach(var author in authors)
             {
-                //await _bookAuthorRepository.Add(new BookAuthor()
-                //{
-                //    AuthorId = author.Id,
-                //    BookId = x.Id
-                //});
-
                 bookAuthors.Add(new BookAuthor()
                 {
                     AuthorId = author.Id,
                     BookId = x.Id
                 });
             }
-
 
             Book book = new Book()
             {
