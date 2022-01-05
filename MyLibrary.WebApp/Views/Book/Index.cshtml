@@ -39,6 +39,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ImageURL)
             </td>
+
+            <td>
+                @foreach (var author in item.Authors)
+                {
+                    <span>@author.Name </span>
+                    <span>@author.Surname</span>
+                }
+            </td>
             <td>
             </td>
             <td>
