@@ -15,6 +15,22 @@ namespace MyLibrary.Infrastructure.Repositories
         {
             _appDbContext = appDbContext;
         }
+
+        public async Task Add(BookAuthor x)
+        {
+            try
+            {
+                _appDbContext.BookAuthor.Add(x);
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+
+                await Task.FromException(ex);
+            }
+        }
+
         public async Task<IEnumerable<BookAuthor>> BrowseAll()
         {
             return await Task.FromResult(_appDbContext.BookAuthor);

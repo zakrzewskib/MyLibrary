@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyLibrary.Infrastructure.Commands;
 using MyLibrary.Infrastructure.DTO;
 using MyLibrary.Infrastructure.Services;
 using System;
@@ -26,10 +27,37 @@ namespace MyLibrary.WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetZawodnik(int id)
+        public async Task<IActionResult> Get(int id)
         {
             BookDTO x = await _bookService.Get(id);
             return Json(x);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            BookDTO x = await _bookService.Get(id);
+            await _bookService.Delete(id);
+            return Json(x);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody] CreateBook createBook)
+        {
+            BookDTO book = new BookDTO()
+            {
+                Id = createBook.Id,
+                Title = createBook.Title,
+                ImageURL = createBook.ImageURL,
+                Authors = createBook.Authors
+            };
+            
+
+            await _bookService.Add(book);
+
+            IEnumerable <BookDTO> books = await _bookService.BrowseAll();
+
+            return Json(books);
         }
 
 

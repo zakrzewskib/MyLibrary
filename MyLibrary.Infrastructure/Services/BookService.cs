@@ -22,7 +22,33 @@ namespace MyLibrary.Infrastructure.Services
         }
         public async Task Add(BookDTO x)
         {
-            throw new NotImplementedException();
+            List<AuthorDTO> authors = x.Authors;
+            List<BookAuthor> bookAuthors = new List<BookAuthor>();
+            foreach(var author in authors)
+            {
+                //await _bookAuthorRepository.Add(new BookAuthor()
+                //{
+                //    AuthorId = author.Id,
+                //    BookId = x.Id
+                //});
+
+                bookAuthors.Add(new BookAuthor()
+                {
+                    AuthorId = author.Id,
+                    BookId = x.Id
+                });
+            }
+
+
+            Book book = new Book()
+            {
+                Id = x.Id,
+                Title = x.Title,
+                ImageURL = x.ImageURL,
+                BookAuthors = bookAuthors
+            };
+
+            await _bookRepository.Add(book);
         }
 
         public async Task<IEnumerable<BookDTO>> BrowseAll()
@@ -62,31 +88,9 @@ namespace MyLibrary.Infrastructure.Services
 
         }
 
-        //private async Task<List<AuthorDTO>> GetAuthorsOfBookAsync(int id)
-        //{
-        //    var bookAuthors = await _bookAuthorRepository.BrowseAll();
-
-        //    List<AuthorDTO> authors = new List<AuthorDTO>();
-        //    foreach (var item in bookAuthors)
-        //    {
-        //        if (item.BookId == id)
-        //        {
-        //            var author = await _authorRepository.Get(item.AuthorId);
-
-        //            authors.Add(new AuthorDTO()
-        //            {
-        //                Id = author.Id,
-        //                Name = author.Name,
-        //                Surname = author.Surname
-        //            });
-        //        }
-        //    };
-        //    return authors;
-        //}
-
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            await _bookRepository.Delete(id);
         }
 
         public async Task<BookDTO> Get(int id)

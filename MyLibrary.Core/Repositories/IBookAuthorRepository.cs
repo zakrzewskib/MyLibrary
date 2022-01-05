@@ -10,5 +10,6 @@ namespace MyLibrary.Core.Repositories
     public interface IBookAuthorRepository
     {
         Task<IEnumerable<BookAuthor>> BrowseAll();
+        Task Add(BookAuthor x);
     }
 }
