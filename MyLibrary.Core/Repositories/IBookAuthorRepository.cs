@@ -11,5 +11,7 @@ namespace MyLibrary.Core.Repositories
     {
         Task<IEnumerable<BookAuthor>> BrowseAll();
         Task Add(BookAuthor x);
+        Task Delete(int bookId);
+        Task<IEnumerable<BookAuthor>> Get(int bookId);
     }
 }

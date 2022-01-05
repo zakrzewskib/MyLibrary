@@ -26,7 +26,6 @@ namespace MyLibrary.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-
                 await Task.FromException(ex);
             }
         }
@@ -34,6 +33,25 @@ namespace MyLibrary.Infrastructure.Repositories
         public async Task<IEnumerable<BookAuthor>> BrowseAll()
         {
             return await Task.FromResult(_appDbContext.BookAuthor);
+        }
+
+        public async Task Delete(int bookId)
+        {
+            try
+            {
+                _appDbContext.Remove(_appDbContext.BookAuthor.FirstOrDefault(x => x.BookId == bookId));
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
+        }
+
+        public async Task<IEnumerable<BookAuthor>> Get(int bookId)
+        {
+            return await Task.FromResult(_appDbContext.BookAuthor.Where(x => x.BookId == bookId));
         }
     }
 }

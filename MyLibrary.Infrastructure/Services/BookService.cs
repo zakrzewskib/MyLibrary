@@ -125,9 +125,20 @@ namespace MyLibrary.Infrastructure.Services
 
         public async Task Update(BookDTO x, int id)
         {
+            var bookAuthorsFromRepo = await _bookAuthorRepository.BrowseAll();
+            var bookFromRepo = await _bookRepository.Get(id);
+            var bookAuthorOfCurrentBook = await _bookAuthorRepository.Get(id);
+
+            // First delete all authorbooks
+            for (int i = 0; i < bookAuthorOfCurrentBook.Count(); i++)
+            {
+                await _bookAuthorRepository.Delete(id);
+            };
+
             List<AuthorDTO> authors = x.Authors;
             List<BookAuthor> bookAuthors = new List<BookAuthor>();
 
+            // And add new authors and automatically add to authorbooks
             foreach (var author in authors)
             {
                 bookAuthors.Add(new BookAuthor()
@@ -135,6 +146,12 @@ namespace MyLibrary.Infrastructure.Services
                     AuthorId = author.Id,
                     BookId = x.Id
                 });
+
+                //await _bookAuthorRepository.Add(new BookAuthor()
+                //{
+                //    AuthorId = author.Id,
+                //    BookId = x.Id
+                //});
             }
 
 
