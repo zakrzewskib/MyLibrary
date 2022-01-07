@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using MyLibrary.Infrastructure.Commands;
 using MyLibrary.Infrastructure.DTO;
 using MyLibrary.Infrastructure.Services;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 namespace MyLibrary.WebAPI.Controllers
 {
     [Route("[Controller]")]
+    [EnableCors("MyCorsPolicy")]
     public class BookController : Controller
     {
         private readonly IBookService _bookService;

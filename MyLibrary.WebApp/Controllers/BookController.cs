@@ -32,20 +32,22 @@ namespace MyLibrary.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            string _restpath = GetHostUrl().Content + ControllerName();
+            //string _restpath = GetHostUrl().Content + ControllerName();
 
-            List<BookVM> books = new List<BookVM>();
+            //List<BookVM> books = new List<BookVM>();
 
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(_restpath))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    books = JsonConvert.DeserializeObject<List<BookVM>>(apiResponse);
-                }
-            }
+            //using (var httpClient = new HttpClient())
+            //{
+            //    using (var response = await httpClient.GetAsync(_restpath))
+            //    {
+            //        string apiResponse = await response.Content.ReadAsStringAsync();
+            //        books = JsonConvert.DeserializeObject<List<BookVM>>(apiResponse);
+            //    }
+            //}
 
-            return View(books);
+            //return View(books);
+            return View();
+
         }
 
     }
