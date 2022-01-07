@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace MyLibrary.WebAPI.Controllers
 {
     [Route("[Controller]")]
-    [EnableCors("MyCorsPolicy")]
+    [EnableCors]
     public class BookController : Controller
     {
         private readonly IBookService _bookService;
