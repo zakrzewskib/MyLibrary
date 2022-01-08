@@ -22,9 +22,9 @@ namespace MyLibrary.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Author>> BrowseAll()
+        public async Task<IEnumerable<Author>> BrowseAll()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(_appDbContext.Author);
         }
 
         public Task Delete(int id)

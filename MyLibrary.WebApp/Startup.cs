@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyLibrary.Core.Repositories;
 using MyLibrary.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,8 @@ namespace MyLibrary.WebApp
                options => options.UseSqlServer(
                    Configuration.GetConnectionString("MyLibraryConnectionString")
                ));
+
+            services.AddScoped<IAuthorRepository, AuthorRepository>();
 
             services.Configure<IdentityOptions>(options =>
             {
