@@ -1,0 +1,12 @@
+.books-shelf {
+    display: flex;
+    gap: 20px;
+}
+
+.book-img {
+    max-width: 100%;
+}
+
+.book {
+    width: 130px;
+}

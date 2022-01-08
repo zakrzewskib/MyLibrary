@@ -15,6 +15,8 @@ const BooksPage = ({ ...props }) => {
     dispatch(BookActions.GetBooks());
   }, []);
 
+  console.log(items);
+
   return (
     <div id="books-page">
       <div className="card-deck">
@@ -22,7 +24,6 @@ const BooksPage = ({ ...props }) => {
           <BookComponent key={idx} book={item} />
         ))}
       </div>
-      <h1>Hello from React</h1>
     </div>
   );
 };

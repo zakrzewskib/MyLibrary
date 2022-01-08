@@ -50,7 +50,7 @@ namespace MyLibrary.WebAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyLibrary.WebAPI", Version = "v1" });
             });
 
-            //services.AddCors();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,9 +67,9 @@ namespace MyLibrary.WebAPI
 
             app.UseRouting();
 
-            //app.UseCors(
-            //    options => options.WithOrigins("https://localhost:44346/").AllowAnyMethod()
-            //);
+            app.UseCors(
+                options => options.WithOrigins("https://localhost:44346/").AllowAnyMethod()
+            );
 
             app.UseAuthorization();
 
