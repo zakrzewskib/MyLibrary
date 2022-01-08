@@ -12,10 +12,10 @@ const BookComponent = ({ book: { id, title, imageURL, authors }, ...props }) => 
   return (
     <>
       <div className="card" style={{ cursor: "pointer" }} onClick={handleShow}>
-        <img src={imageURL} alt="Book image" />
+        <img class="card-image" style={{ height: "100%" }} src={imageURL} alt="Book image" />
       </div>
 
-      <Modal style={{ position: "relative" }} show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose}>
         <Modal.Header className="justify-content-center">
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
