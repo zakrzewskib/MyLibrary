@@ -12,7 +12,7 @@ const BookComponent = ({ book: { id, title, imageURL, authors }, ...props }) => 
   return (
     <>
       <div className="card" style={{ cursor: "pointer" }} onClick={handleShow}>
-        <img class="card-image" style={{ height: "100%" }} src={imageURL} alt="Book image" />
+        <img className="card-image" style={{ height: "100%" }} src={imageURL} alt="Book image" />
       </div>
 
       <Modal show={show} onHide={handleClose}>
@@ -21,8 +21,8 @@ const BookComponent = ({ book: { id, title, imageURL, authors }, ...props }) => 
         </Modal.Header>
         <Modal.Body className="text-right">
           <div className="text-center">
-            {authors.map((author, idx) => (
-              <p>
+            {authors.map(author => (
+              <p key={author.id}>
                 {author.name} {author.surname}
               </p>
             ))}

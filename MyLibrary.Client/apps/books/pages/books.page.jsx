@@ -20,8 +20,8 @@ const BooksPage = ({ ...props }) => {
   return (
     <div id="books-page">
       <div className="card-deck" style={{ width: "80%", marginLeft: "auto", marginRight: "auto" }}>
-        {items.map((item, idx) => (
-          <BookComponent key={idx} book={item} />
+        {items.map(item => (
+          <BookComponent key={item.id} book={item} />
         ))}
       </div>
     </div>
