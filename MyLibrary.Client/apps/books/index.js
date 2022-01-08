@@ -11,7 +11,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 let store = createStore(ApplicationReducer, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
-  <BrowserRouter basename="Books">
+  <BrowserRouter basename="">
     <Provider store={store}>
       <Router />
     </Provider>

@@ -15,8 +15,6 @@ const BooksPage = ({ ...props }) => {
     dispatch(BookActions.GetBooks());
   }, []);
 
-  console.log(items);
-
   return (
     <div id="books-page">
       <div className="card-deck" style={{ width: "80%", marginLeft: "auto", marginRight: "auto" }}>
