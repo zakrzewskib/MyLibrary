@@ -9,6 +9,7 @@ namespace MyLibrary.WebApp.Models
 {
     public class BookEditVM
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public string ImageURL { get; set; }
         public List<Author> Authors { get; set; } = new List<Author>();

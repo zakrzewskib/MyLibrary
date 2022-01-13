@@ -155,5 +155,38 @@ namespace MyLibrary.WebApp.Controllers
 
             return View(bookVM);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(BookEditVM book)
+        {
+            try
+            {
+                foreach (var item in book.SelectedAuthors)
+                {
+                    var author = await _authorRepository.Get(Int32.Parse(item));
+                    book.Authors.Add(author);
+                }
+
+                string _restpath = GetHostUrl().Content + ControllerName();
+
+                using (var httpClient = new HttpClient())
+                {
+                    string jsonString = System.Text.Json.JsonSerializer.Serialize(book);
+
+                    var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+
+                    using (var response = await httpClient.PutAsync($"{_restpath}/{book.Id}", content))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
