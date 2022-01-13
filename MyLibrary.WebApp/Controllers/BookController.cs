@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using MyLibrary.Core.Repositories;
 using MyLibrary.Infrastructure.Repositories;
+using MyLibrary.WebAPI;
 using MyLibrary.WebApp.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +22,16 @@ namespace MyLibrary.WebApp.Controllers
         private IAuthorRepository _authorRepository;
 
         public IConfiguration Configuration;
+
+        JWToken JWToken;
+
         public BookController(IConfiguration configuration, IAuthorRepository authorRepository)
         {
             Configuration = configuration;
             _authorRepository = authorRepository;
+            JWToken = new JWToken(configuration);
         }
+
 
         public ContentResult GetHostUrl()
         {
@@ -126,11 +133,13 @@ namespace MyLibrary.WebApp.Controllers
             string _restpath = GetHostUrl().Content + ControllerName();
             BookEditVM bookVM = new BookEditVM();
 
+           
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
+
                     bookVM = JsonConvert.DeserializeObject<BookEditVM>(apiResponse);
                 }
             }
@@ -161,6 +170,9 @@ namespace MyLibrary.WebApp.Controllers
         {
             try
             {
+                var tokenString = JWToken.TokenString;
+
+
                 foreach (var item in book.SelectedAuthors)
                 {
                     var author = await _authorRepository.Get(Int32.Parse(item));
@@ -171,12 +183,20 @@ namespace MyLibrary.WebApp.Controllers
 
                 using (var httpClient = new HttpClient())
                 {
+                    httpClient.DefaultRequestHeaders.Authorization =
+                        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokenString);
+
                     string jsonString = System.Text.Json.JsonSerializer.Serialize(book);
 
                     var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
                     using (var response = await httpClient.PutAsync($"{_restpath}/{book.Id}", content))
                     {
+                        if (response.StatusCode == HttpStatusCode.Unauthorized)
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+
                         string apiResponse = await response.Content.ReadAsStringAsync();
                     }
                 }

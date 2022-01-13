@@ -19,6 +19,7 @@ namespace MyLibrary.WebAPI
             Configuration = configuration;
             TokenUrl = "http://localhost:5001";
             SecretKey = "SuperSecretPassword";
+            TokenString = GenerateJSONWebToken();
         }
         public string TokenUrl { get; set; }
         public string SecretKey { get; set; }
@@ -27,6 +28,7 @@ namespace MyLibrary.WebAPI
         private string GenerateJSONWebToken()
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes($"{SecretKey}"));
+            //var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Wrongpassword123333"));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
                 issuer: $"{TokenUrl}",

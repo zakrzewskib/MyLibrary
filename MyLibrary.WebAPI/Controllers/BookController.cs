@@ -61,6 +61,7 @@ namespace MyLibrary.WebAPI.Controllers
             return Json(books);
         }
 
+        [Authorize] // for JWT
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromBody] UpdateBook updateBook, int id)
         {
