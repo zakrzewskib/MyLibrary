@@ -67,7 +67,8 @@ namespace MyLibrary.WebAPI
                     ValidAudience = "http://localhost:5001",
                     ValidIssuer = "http://localhost:5001",
 
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretWrongPassword")),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretPassword")),
+                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretWrongPassword"))
                 };
             }
             );

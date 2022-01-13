@@ -46,22 +46,20 @@ namespace MyLibrary.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //string _restpath = GetHostUrl().Content + ControllerName();
+            string _restpath = GetHostUrl().Content + ControllerName();
 
-            //List<BookVM> books = new List<BookVM>();
+            List<BookVM> books = new List<BookVM>();
 
-            //using (var httpClient = new HttpClient())
-            //{
-            //    using (var response = await httpClient.GetAsync(_restpath))
-            //    {
-            //        string apiResponse = await response.Content.ReadAsStringAsync();
-            //        books = JsonConvert.DeserializeObject<List<BookVM>>(apiResponse);
-            //    }
-            //}
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(_restpath))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    books = JsonConvert.DeserializeObject<List<BookVM>>(apiResponse);
+                }
+            }
 
-            //return View(books);
-            return View();
-
+            return View(books);
         }
 
         [Authorize(Roles = "admin")]
@@ -208,5 +206,53 @@ namespace MyLibrary.WebApp.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            string _restpath = GetHostUrl().Content + ControllerName();
+
+            BookVM b = new BookVM();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    b = JsonConvert.DeserializeObject<BookVM>(apiResponse);
+                }
+            }
+            return View(b);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(BookVM b)
+        {
+            try
+            {
+                string _restpath = GetHostUrl().Content + ControllerName();
+
+                BookVM book = new BookVM();
+
+                using (var httpClient = new HttpClient())
+                {
+                    string jsonString = System.Text.Json.JsonSerializer.Serialize(b);
+
+                    var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+
+                    using (var response = await httpClient.DeleteAsync($"{_restpath}/{b.Id}"))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        book = JsonConvert.DeserializeObject<BookVM>(apiResponse);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
