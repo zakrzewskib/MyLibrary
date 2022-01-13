@@ -35,6 +35,8 @@ namespace MyLibrary.WebApp
                ));
 
             services.AddScoped<IAuthorRepository, AuthorRepository>();
+            
+            services.AddCors();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -46,6 +48,7 @@ namespace MyLibrary.WebApp
             });
 
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +69,10 @@ namespace MyLibrary.WebApp
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors(
+                options => options.WithOrigins("https://localhost:5001").AllowAnyMethod()
+            );
 
             app.UseAuthentication();
             app.UseAuthorization();

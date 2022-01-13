@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +18,7 @@ using System.Threading.Tasks;
 
 namespace MyLibrary.WebApp.Controllers
 {
+    [EnableCors]
     public class BookController : Controller
     {
         private IAuthorRepository _authorRepository;
