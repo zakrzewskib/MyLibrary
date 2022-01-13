@@ -120,5 +120,40 @@ namespace MyLibrary.WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Edit(int id)
+        {
+           
+            string _restpath = GetHostUrl().Content + ControllerName();
+            BookEditVM bookVM = new BookEditVM();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    bookVM = JsonConvert.DeserializeObject<BookEditVM>(apiResponse);
+                }
+            }
+
+            var authorsFromRepo = await _authorRepository.BrowseAll();
+            var selectList = new List<SelectListItem>();
+            List<String> authors = new List<String>();
+
+            foreach (var item in authorsFromRepo)
+            {
+                selectList.Add(new SelectListItem(item.Name + " " + item.Surname, item.Id.ToString()));
+                foreach (var author in bookVM.Authors)
+                {
+                    if(item.Id == author.Id)
+                    {
+                        selectList.FirstOrDefault(x => x.Value == item.Id.ToString()).Selected = true;
+                    }
+                }
+            }
+
+            bookVM.AuthorsSelectList = selectList;
+
+            return View(bookVM);
+        }
     }
 }

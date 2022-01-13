@@ -31,9 +31,9 @@ const BookComponent = ({ book: { id, title, imageURL, authors }, ...props }) => 
           <NavLink className="btn btn-primary disabled" to={`Book/${id}`}>
             See details
           </NavLink>
-          <NavLink className="btn btn-primary disabled" to={`Book/Edit/${id}`}>
+          <a className="btn btn-primary" href={`Book/Edit/${id}`}>
             Edit
-          </NavLink>
+          </a>
         </Modal.Body>
       </Modal>
     </>
