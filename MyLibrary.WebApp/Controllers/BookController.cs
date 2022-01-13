@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using MyLibrary.Core.Repositories;
@@ -56,6 +57,7 @@ namespace MyLibrary.WebApp.Controllers
 
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create()
         {
             var authorsFromRepo = await _authorRepository.BrowseAll();
@@ -72,19 +74,20 @@ namespace MyLibrary.WebApp.Controllers
 
             return View(vm);
 
-            string _restpath = GetHostUrl().Content + ControllerName();
+            //string _restpath = GetHostUrl().Content + ControllerName();
 
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync($"{_restpath}"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                }
-            }
-            return View();
+            //using (var httpClient = new HttpClient())
+            //{
+            //    using (var response = await httpClient.GetAsync($"{_restpath}"))
+            //    {
+            //        string apiResponse = await response.Content.ReadAsStringAsync();
+            //    }
+            //}
+            //return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create(BookCreateVM book)
         {
             try

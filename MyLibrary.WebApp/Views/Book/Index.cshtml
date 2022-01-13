@@ -60,9 +60,14 @@
         </tbody>
     </table>*@
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@{
+    if (User.IsInRole("admin"))
+    {
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    }
+}
 
 <div id="books-app-root"></div>
 
