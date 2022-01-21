@@ -80,17 +80,6 @@ namespace MyLibrary.WebApp.Controllers
             };
 
             return View(vm);
-
-            //string _restpath = GetHostUrl().Content + ControllerName();
-
-            //using (var httpClient = new HttpClient())
-            //{
-            //    using (var response = await httpClient.GetAsync($"{_restpath}"))
-            //    {
-            //        string apiResponse = await response.Content.ReadAsStringAsync();
-            //    }
-            //}
-            //return View();
         }
 
         [HttpPost]
@@ -127,6 +116,7 @@ namespace MyLibrary.WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int id)
         {
            
@@ -146,7 +136,6 @@ namespace MyLibrary.WebApp.Controllers
 
             var authorsFromRepo = await _authorRepository.BrowseAll();
             var selectList = new List<SelectListItem>();
-            List<String> authors = new List<String>();
 
             foreach (var item in authorsFromRepo)
             {
@@ -166,12 +155,12 @@ namespace MyLibrary.WebApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(BookEditVM book)
         {
             try
             {
                 var tokenString = JWToken.TokenString;
-
 
                 foreach (var item in book.SelectedAuthors)
                 {
@@ -209,6 +198,7 @@ namespace MyLibrary.WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             string _restpath = GetHostUrl().Content + ControllerName();
@@ -227,6 +217,7 @@ namespace MyLibrary.WebApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(BookVM b)
         {
             try

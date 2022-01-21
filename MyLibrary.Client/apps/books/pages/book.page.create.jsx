@@ -7,7 +7,7 @@ import { BookActions } from "../store/books.store";
 const BookCreatePage = ({ ...props }) => {
   return (
     <div>
-      <h1>This is a create book page, maybe posting with axios would be easier to implement</h1>
+      {/* <h1>This is a create book page, maybe posting with axios would be easier to implement</h1> */}
     </div>
   );
 };
